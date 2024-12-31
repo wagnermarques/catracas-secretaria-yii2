@@ -22,6 +22,14 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    'logVars' => [], // Impede o log das superglobais
+                    'logFile' => '@runtime/logs/error.log'
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'logVars' => [], // Impede o log das superglobais                    
+                    'logFile' => '@runtime/logs/info.log'                    
                 ],
             ],
         ],

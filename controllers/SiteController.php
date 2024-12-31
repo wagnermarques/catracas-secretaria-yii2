@@ -61,6 +61,14 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        // Registrando de rastreamento 
+        Yii::debug('Iniciando cálculo da receita média' .  __CLASS__ . "::" . __METHOD__);
+        // Registrar uma mensagem informativa
+        Yii::info('Usuário logado com sucesso' .  __CLASS__ . "::" . __METHOD__);
+        // Registrar uma mensagem de aviso
+        Yii::warning('Não foi possível encontrar o usuário solicitado' . __CLASS__ . "::" . __METHOD__);
+        // Registrar um erro fatal
+        Yii::error('Erro no'. __CLASS__ . "::" . __METHOD__);
         return $this->render('index');
     }
 
