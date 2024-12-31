@@ -69,6 +69,18 @@ class SiteController extends Controller
         Yii::warning('Não foi possível encontrar o usuário solicitado' . __CLASS__ . "::" . __METHOD__);
         // Registrar um erro fatal
         Yii::error('Erro no'. __CLASS__ . "::" . __METHOD__);
+
+        if (YII_ENV_DEV){
+            Yii::$app->session->setFlash('success', 'Aplicacção está em ambiente dev (YII_ENV_DEV)');
+        }elseif(YII_ENV_TEST){
+            Yii::$app->session->setFlash('info','Aplicação está em ambiente YII_ENV_TEST)');
+        }else{
+            // se nao for YII_ENV_DEV ou YII_ENV_TEST
+            // YII_ENV_PROD nao e definido pelo yii2
+            // fica subentendido ambiente de prod
+            Yii::$app->session->setFlash('warn','Aplicação está em ambiente debug (YII_ENV_PROD)');
+        }
+        
         return $this->render('index');
     }
 
