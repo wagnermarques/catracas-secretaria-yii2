@@ -38,15 +38,17 @@ $config = [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['trace', 'error'],
                     'logVars' => [], // Impede o log das superglobais
-                    'logFile' => '@runtime/logs/error.log'
+                    'logFile' => '@runtime/logs/trace_and_error.log',
+                    'except' => ['yii\base*','yii\web\*'],
+                    //'categories' => ['!=yii\base'], // Filter by category
                 ],
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['info'],
+                    'levels' => ['info', 'warning'],
                     'logVars' => [], // Impede o log das superglobais
-                    'logFile' => '@runtime/logs/info.log'                    
+                    'logFile' => '@runtime/logs/info_and_warnings.log'                    
                 ],
             ],
         ],
