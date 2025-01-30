@@ -1,5 +1,7 @@
 <?php
 
+use yii\i18n\Formatter;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -12,6 +14,7 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'language' => 'pt-BR', 
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -38,7 +41,7 @@ $config = [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['trace', 'error'],
+                    'levels' => ['trace'],
                     'logVars' => [], // Impede o log das superglobais
                     'logFile' => '@runtime/logs/trace_and_error.log',
                     'except' => ['yii\base*','yii\web\*'],
@@ -46,13 +49,22 @@ $config = [
                 ],
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['info', 'warning'],
+                    'levels' => ['info', 'error'],
                     'logVars' => [], // Impede o log das superglobais
                     'logFile' => '@runtime/logs/info_and_warnings.log'                    
                 ],
             ],
         ],
-        'db' => $db,
+        'formatter' => [
+            'class' => Formatter::class,
+            'dateFormat' => 'dd/MM/yyyy',
+            'timeFormat' => 'HH:mm:ss',
+            'datetimeFormat' => 'dd/MM/yyyy HH:mm:ss',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => '.',
+            'currencyCode' => 'BRL',
+        ],
+    'db' => $db,
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

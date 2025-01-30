@@ -78,4 +78,11 @@ class LoginForm extends Model
 
         return $this->_user;
     }
+
+
+     public function attributeLabels() {
+         $labels = parent::attributeLabels();
+         $userLabels = (new User())->attributeLabels();
+         return array_merge($labels, $userLabels);
+     }
 }
