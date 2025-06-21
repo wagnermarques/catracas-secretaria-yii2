@@ -8,9 +8,9 @@ use Yii;
  * This is the model class for table "pessoas".
  *
  * @property int $id
- * @property string $firtname
+ * @property string $firstname
  * @property string|null $lastname
- * @property string|null $email
+ * @property string|null $emailpessoal
  * @property int|null $idade
  * @property string|null $rg
  * @property string|null $cpf
@@ -33,10 +33,10 @@ class Pessoas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['firtname'], 'required'],
+            [['firstname'], 'required'],
             [['idade'], 'integer'],
-            [['email'], 'email'],
-            [['firtname', 'lastname'], 'string', 'max' => 100],
+            [['emailpessoal'], 'email'],
+            [['firstname', 'lastname'], 'string', 'max' => 100],
             [['rg', 'cpf'], 'string', 'max' => 20],
         ];
     }
@@ -48,9 +48,9 @@ class Pessoas extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'firtname' => 'Firtname',
-            'lastname' => 'Lastname',
-            'email' => 'Email',
+            'firtsname' => 'Primeiro Nome',
+            'lastname' => 'Sobrenome',
+            'emailpessoal' => 'Email Pessoal',
             'idade' => 'Idade',
             'rg' => 'Rg',
             'cpf' => 'Cpf',

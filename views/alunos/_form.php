@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <!-- dropbox to select pessoa from pessoas -->
     <?= $form->field($model, 'pessoa_id')->dropDownList(
-        \yii\helpers\ArrayHelper::map($pessoasall, 'id', 'firtname'),
+        \yii\helpers\ArrayHelper::map($pessoasall, 'id', 'firstname'),
         ['prompt' => 'Selecione uma pessoa']
     ) ?>
     

@@ -63,7 +63,7 @@ $config = [
             ],
         ],
         'formatter' => [
-            'class' => Formatter::class,
+            'class' => 'yii\i18n\Formatter', //'class' => Formatter::class,
             'dateFormat' => 'dd/MM/yyyy',
             'timeFormat' => 'HH:mm:ss',
             'datetimeFormat' => 'dd/MM/yyyy HH:mm:ss',
@@ -80,7 +80,38 @@ $config = [
             ],
         ],
         */
-    ],
+    'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    // 'sourceLanguage' => 'en-US', // Opcional, idioma original dos textos
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+                // Adicionar configuração para as mensagens do Gii
+                'gii' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@vendor/yiisoft/yii2-gii/messages', // Caminho padrão das mensagens do Gii
+                    'forceTranslation' => true, // Força a tradução mesmo se a mensagem for igual ao sourceLanguage
+                    'fileMap' => [
+                        'gii' => 'gii.php',
+                    ],
+                ],
+                // Adicionar configuração para as mensagens do Yii (framework)
+                'yii' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@vendor/yiisoft/yii2/messages', // Caminho padrão das mensagens do Yii
+                    'forceTranslation' => true,
+                    'fileMap' => [
+                        'yii' => 'yii.php',
+                    ],
+                ],
+            ],
+        ],//i18n
+    ], //components
     'params' => $params,
 ];
 

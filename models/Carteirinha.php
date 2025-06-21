@@ -34,7 +34,7 @@ class Carteirinha extends \yii\db\ActiveRecord
             [['id_aluno'], 'integer'],
             [['ativa', 'carteirinha_id','data_emissao', 'data_validade'], 'safe'],
             [['data_emissao', 'data_validade'], 'date' , 'format' => 'dd/MM/yyyy', 'message' => 'Formato da data invalida: Use dd/mm/aaaa'],
-            [['id_aluno'], 'exist', 'skipOnError' => true, 'targetClass' => Alunos::class, 'targetAttribute' => ['id_aluno' => 'id'], 'message' => 'Aluno não encontrado'],
+            [['id_aluno'], 'exist', 'skipOnError' => true, 'targetClass' => Alunos::class, 'targetAttribute' => ['id_aluno' => 'id'], 'message' => 'Aluno nï¿½o encontrado'],
             [['id_aluno'], 'exist', 'skipOnError' => true, 'targetClass' => Alunos::class, 'targetAttribute' => ['id_aluno' => 'id']],
         ];
     }

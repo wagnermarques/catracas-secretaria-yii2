@@ -11,7 +11,7 @@ use yii\base\Model;
 class ContactForm extends Model
 {
     public $name;
-    public $email;
+    public $emailpessoal;
     public $subject;
     public $body;
     public $verifyCode;
@@ -22,12 +22,9 @@ class ContactForm extends Model
      */
     public function rules()
     {
-        return [
-            // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
-            // email has to be a valid email address
-            ['email', 'email'],
-            // verifyCode needs to be entered correctly
+        return [            
+            [['name', 'emailpessoal', 'subject', 'body'], 'required'],
+            ['emailpessoal', 'email'],
             ['verifyCode', 'captcha'],
         ];
     }

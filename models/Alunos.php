@@ -7,11 +7,11 @@ use Yii;
 /**
  * This is the model class for table "alunos".
  *
- * @property int $id
+ * @property int $id    
  * @property string $nome
  * @property int $ra
  * @property int $idade
- * @property string $email
+ * @property string $emailpessoal
  *
  * @property Carteirinha[] $carteirinhas
  */
@@ -48,7 +48,7 @@ class Alunos extends \yii\db\ActiveRecord
             'nome' => 'Nome',
             'ra' => 'Ra',
             'idade' => 'Idade',
-            'email' => 'Email',
+            'emailpessoal' => 'Email Pessoal',
             'aluno_status_id' => 'Status do Aluno',
         ];
     }
