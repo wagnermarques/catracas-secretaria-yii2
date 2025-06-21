@@ -1,6 +1,9 @@
 <?php
 
+Yii::trace('===> web.php...');
+
 use yii\i18n\Formatter;
+use app\util\GuzzleClient;
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
@@ -16,6 +19,10 @@ $config = [
     ],
     'language' => 'pt-BR', 
     'components' => [
+        'guzzleClient' => [
+            'class' => GuzzleClient::class,
+            'singleton' => true,
+        ],        
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'KS3I0HPmcOnJ0oiC4rXB-SVAMXMgTtgv',

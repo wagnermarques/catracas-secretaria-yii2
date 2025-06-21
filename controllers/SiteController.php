@@ -11,6 +11,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 
 use app\util\LogUtil;
+use GuzzleHttp\Exception\GuzzleException;
 
 class SiteController extends Controller
 {

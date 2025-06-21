@@ -21,3 +21,9 @@ require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
 $config = require __DIR__ . '/../config/web.php';
 
 (new yii\web\Application($config))->run();
+
+$key = Yii::$app->guzzleClient->signInWithConfiguredFirebaseAuthEmailAndPassword();
+var_dump($key);exit();
+
+#$doc = Yii::$app->guzzleClient->getDocument('catracaspassagens', '6lYLkhPSHFIgDKAsJr0c');
+
