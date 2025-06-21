@@ -1,3 +1,15 @@
 {
-    "php.debug.executablePath": ""
+   "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for Xdebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9003, // A porta do Xdebug no seu 90-xdebug.ini
+            "log": true,
+            "pathMappings": {
+                "/var/www/html": "/var/www/html"
+            }
+        }
+    ]
 }

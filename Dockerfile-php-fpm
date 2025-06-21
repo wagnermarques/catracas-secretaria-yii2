@@ -6,9 +6,40 @@ RUN docker-php-ext-install pdo pdo_mysql mysqli
 RUN apt-get update && apt-get install -y \
     curl \
     unzip \
-    git
+    git \
+    libpng-dev \ 
+    libjpeg-dev \ 
+    libfreetype6-dev \
+    # Adicionado para Xdebug
+    gnupg \
+    dirmngr
 
 RUN rm -rf /var/lib/apt/lists/*
+
+# Instala as extensões do PHP necessárias
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install gd
+
+# Instala a extensão intl
+RUN apt-get update && apt-get install -y libicu-dev \
+    && docker-php-ext-install intl
+
+# Instala a extensão zip
+RUN apt-get update && apt-get install -y libzip-dev \
+    && docker-php-ext-install zip
+
+# Instala a extensão bcmath
+RUN apt-get update && apt-get install -y libxml2-dev \
+    && docker-php-ext-install bcmath    
+
+
+#-----------------------------------------------
+# ADICIONAR ESTAS LINHAS PARA INSTALAR E HABILITAR O XDEBUG
+# -----------------------------------------------
+RUN pecl install xdebug && docker-php-ext-enable xdebug    
+# Copia o arquivo de configuração do Xdebug para o diretório de conf do PHP
+COPY 90-xdebug.ini /usr/local/etc/php/conf.d/90-xdebug.ini
+
 
 # Instala o Composer globalmente
 # Baixa o instalador do Composer
