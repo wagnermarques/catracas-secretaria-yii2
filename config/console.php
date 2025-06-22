@@ -1,5 +1,7 @@
 <?php
 
+use GuzzleHttp\Client;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -34,6 +36,10 @@ $config = [
             ],
         ],
         'db' => $db,
+        'guzzleClient' => [
+            'class' => Client::class,
+            'singleton' => true,
+        ],    
     ],
     'params' => $params,
     /*

@@ -6,12 +6,12 @@ use Yii;
 use yii\console\Controller;
 use yii\console\ExitCode;
 use yii\base\Exception; // Para capturar exceções da chamada à API
-
+use app\classes\GuzzleClientWrapperForFirebase; 
 /**
  * Este comando interage com o Firebase Firestore via GuzzleClient
  * para listar documentos de uma coleção.
  */
-class PassagensController extends Controller
+class FirebasePassagensController extends Controller
 {
     /**
      * Lista documentos de uma coleção específica do Firebase Firestore.
@@ -35,16 +35,15 @@ class PassagensController extends Controller
         }
 
         $guzzleClient = Yii::$app->guzzleClient;
+        
+        $firebaseRestClient = new GuzzleClientWrapperForFirebase($guzzleClient);
+        
 
         $this->stdout("Iniciando listagem de documentos da coleção: '{$collectionName}'...\n", \yii\helpers\Console::FG_YELLOW);
 
         try {
-            // 2. Chamar o método do seu guzzleClient para listar documentos.
-            //    Assumimos que 'listDocuments' é o método que interage com a API do Firestore
-            //    e retorna um array de documentos.
-            //    O formato de retorno pode variar dependendo da implementação do seu GuzzleClient.
-            //    A API REST do Firestore retorna documentos com 'name' (path completo) e 'fields' (dados).
-            $response = $guzzleClient->listDocuments($collectionName);
+            
+            $response = $firebaseRestClient->listDocuments($collectionName);
 
             // Verifique se a resposta contém uma lista de documentos
             if (!isset($response['documents']) || empty($response['documents'])) {

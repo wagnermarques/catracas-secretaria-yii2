@@ -18,11 +18,7 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'language' => 'pt-BR', 
-    'components' => [
-        'guzzleClient' => [
-            'class' => GuzzleClient::class,
-            'singleton' => true,
-        ],        
+    'components' => [           
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'KS3I0HPmcOnJ0oiC4rXB-SVAMXMgTtgv',
