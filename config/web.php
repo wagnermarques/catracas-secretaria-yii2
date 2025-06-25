@@ -4,9 +4,11 @@ Yii::trace('===> web.php...');
 
 use yii\i18n\Formatter;
 use app\util\GuzzleClient;
+use GuzzleHttp\Client;
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+
 
 $config = [
     'id' => 'basic',
@@ -68,6 +70,10 @@ $config = [
             'currencyCode' => 'BRL',
         ],
     'db' => $db,
+    'guzzleClient' => [
+        'class' => Client::class,
+        'singleton' => true,
+    ],    
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
