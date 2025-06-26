@@ -1,12 +1,12 @@
 <?php
 
-// Carrega o autoload do Composer, que gerencia as dependências do projeto
+// Carrega o autoload do Composer, que gerencia as dependï¿½ncias do projeto
 require __DIR__ . '/../vendor/autoload.php';
 
-// Cria uma instância do Dotenv para carregar as variáveis de ambiente do arquivo .env
+// Cria uma instï¿½ncia do Dotenv para carregar as variï¿½veis de ambiente do arquivo .env
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 
-//carrega as variáveis
+//carrega as variï¿½veis
 $dotenv->load();
 
 //
@@ -21,9 +21,6 @@ require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
 $config = require __DIR__ . '/../config/web.php';
 
 (new yii\web\Application($config))->run();
-
-$key = Yii::$app->guzzleClient->signInWithConfiguredFirebaseAuthEmailAndPassword();
-var_dump($key);exit();
 
 #$doc = Yii::$app->guzzleClient->getDocument('catracaspassagens', '6lYLkhPSHFIgDKAsJr0c');
 
