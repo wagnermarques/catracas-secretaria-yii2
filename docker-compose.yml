@@ -33,8 +33,15 @@ services:
       MYSQL_DATABASE: eteczlcatracas_db # Nome do banco de dados a ser criado
       MYSQL_USER: eteczlcatracas_user # Usuário do banco de dados
       MYSQL_PASSWORD: 1234 # Senha do usuário do banco de dados
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     volumes:
-      - eteczlcatracas-db-data:/var/lib/mysql # Volume nomeado para persistência dos dados do MySQL
+      - ./eteczlcatracas-db-data:/var/lib/mysql # Volume nomeado para persistência dos dados do MySQL
+      - ./my-custom.cnf:/etc/mysql/conf.d/my-custom.cnf
     networks:
       - eteczlcatracas-network
  
@@ -51,8 +58,8 @@ services:
       - eteczlcatracas-network
 
 # Definição de volumes nomeados para persistência de dados
-volumes:
-  eteczlcatracas-db-data: # Volume para os dados do MySQL
+#volumes:
+#  eteczlcatracas-db-data: # Volume para os dados do MySQL
 
 # Definição de redes personalizadas para comunicação entre os serviços
 networks:
