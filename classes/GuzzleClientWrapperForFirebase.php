@@ -57,10 +57,8 @@ class GuzzleClientWrapperForFirebase
         $this->firebase_config_app_id = $_ENV['FIREBASE_CONFIG_APP_ID'];
         $this->firebase_config_measurement_id = $_ENV['FIREBASE_CONFIG_MEASUREMENT_ID'];
 
-        // Caminho para o arquivo JSON da chave da conta de serviço
-        // Coloque este arquivo fora do diretório 'web' e proteja-o!
-        // Sugestão: Crie uma pasta 'firebase-keys' na raiz do seu projeto e coloque o JSON lá.
-        $this->serviceAccountKeyFilePath = Yii::getAlias('@app/firebase-keys/catracase211-firebase-adminsdk-aus3a-f0fccdeba6.json');
+        // Caminho para o arquivo JSON da chave da conta de serviço                
+        $this->serviceAccountKeyFilePath = Yii::getAlias('@app/firebase-keys/catracase211-firebase-adminsdk-aus3a-1ddfcfff85.json');
     }
     
 

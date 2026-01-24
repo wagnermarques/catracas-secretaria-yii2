@@ -45,12 +45,19 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
              'items' => [
                  ['label' => 'Pessoas',        'url' => ['/pessoa/index']],
                  ['label' => 'Alunos',         'url' => ['/alunos/index']],
+                 ['label' => 'Funcionários',   'url' => ['/funcionarios/index']],
                  ['label' => 'Carteirinhas',   'url' => ['/carteirinha/index']],
                  ['label' => 'Status do Aluno','url' => ['/alunos-status/index']],
                  ['label' => 'Acessos Alunos' ,'url' => ['acessosalunos/index']],
+                 ['label' => 'Catracas'       ,'url' => ['/catraca/index']],
              ]
             ],
-            ['label' => 'Relatórios', 'url' => ['/site/contact']],
+            ['label' => 'Relatórios',
+             'items' => [
+                 ['label' => 'Passagens (Firebase)', 'url' => ['/relatorios/firebase-passagens']],
+                 ['label' => 'Contato (Site)', 'url' => ['/site/contact']],
+             ]
+            ],
 
                 Yii::$app->user->isGuest
                 ? ['label' => 'Login', 'url' => ['/site/login']]

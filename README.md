@@ -33,14 +33,12 @@ docker exec -it eteczlcatracas-php-fpm chmod -R 777 web/assets
 
 ### Acessar o projeto
 
-  1. Main Application
-  The Nginx container is mapping port 80 to your host.
-   - URL: http://localhost (http://localhost)
+  1. Acesso à aplicação
+   - URL: http://localhost
 
-  2. phpMyAdmin (Database Management)
-  Mapped to port 8888.
-   - URL: http://localhost:8888 (http://localhost:8888)
-   - Host: eteczlcatracas-mysql (use this as the server name inside phpMyAdmin)
+  2. phpMyAdmin
+   - URL: http://localhost:8888
+   - Host: eteczlcatracas-mysql
    - User: eteczlcatracas_user
    - Password: 1234
 

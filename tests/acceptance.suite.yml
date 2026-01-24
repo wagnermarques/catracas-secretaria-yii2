@@ -1,0 +1,8 @@
+actor: AcceptanceTester
+modules:
+    enabled:
+        - PhpBrowser:
+            url: http://eteczlcatracas-nginx/
+        - Yii2:
+            part: [orm, fixtures]
+            entryScript: index-test.php

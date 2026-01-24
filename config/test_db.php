@@ -1,5 +1,6 @@
 <?php
 // test database! Important not to run tests on production or development databases
-$db['dsn'] = 'mysql:host=localhost;dbname=yii2basic_test';
+$db = require __DIR__ . '/db.php';
+$db['dsn'] = 'mysql:host=eteczlcatracas-mysql;dbname=eteczlcatracas_db_test';
 
 return $db;
