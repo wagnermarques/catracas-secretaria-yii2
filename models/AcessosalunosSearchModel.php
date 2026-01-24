@@ -1,15 +1,15 @@
 <?php
 
-namespace app;
+namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Acessosalunos;
 
 /**
- * modelsAcessosalunosSearchModel represents the model behind the search form of `app\models\Acessosalunos`.
+ * AcessosalunosSearchModel represents the model behind the search form of `app\models\Acessosalunos`.
  */
-class modelsAcessosalunosSearchModel extends Acessosalunos
+class AcessosalunosSearchModel extends Acessosalunos
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class modelsAcessosalunosSearchModel extends Acessosalunos
     {
         return [
             [['id', 'id_aluno'], 'integer'],
-            [['timestampdapassagem', 'timestampdoupdatepranuvem', 'timestampdoupdatepranuvemAtUploading'], 'safe'],
+            [['timestampdapassagem', 'timestampdoupdatepranuvem', 'timestampdoupdatepranuvemAtUploading', 'data_acesso', 'hora_acesso'], 'safe'],
         ];
     }
 
@@ -60,6 +60,8 @@ class modelsAcessosalunosSearchModel extends Acessosalunos
         $query->andFilterWhere([
             'id' => $this->id,
             'id_aluno' => $this->id_aluno,
+            'data_acesso' => $this->data_acesso,
+            'hora_acesso' => $this->hora_acesso,
             'timestampdapassagem' => $this->timestampdapassagem,
             'timestampdoupdatepranuvem' => $this->timestampdoupdatepranuvem,
             'timestampdoupdatepranuvemAtUploading' => $this->timestampdoupdatepranuvemAtUploading,

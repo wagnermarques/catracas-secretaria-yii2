@@ -7,9 +7,10 @@ RUN apt-get update && apt-get install -y \
     curl \
     unzip \
     git \
-    libpng-dev \ 
-    libjpeg-dev \ 
+    libpng-dev \
+    libjpeg-dev \
     libfreetype6-dev \
+    libxml2-dev \
     # Adicionado para Xdebug
     gnupg \
     dirmngr
@@ -28,15 +29,13 @@ RUN apt-get update && apt-get install -y libicu-dev \
 RUN apt-get update && apt-get install -y libzip-dev \
     && docker-php-ext-install zip
 
-# Instala a extensão bcmath
-RUN apt-get update && apt-get install -y libxml2-dev \
-    && docker-php-ext-install bcmath    
-
+# Instala a extensão bcmath e xml/dom
+RUN docker-php-ext-install bcmath soap xml dom
 
 #-----------------------------------------------
 # ADICIONAR ESTAS LINHAS PARA INSTALAR E HABILITAR O XDEBUG
 # -----------------------------------------------
-RUN pecl install xdebug && docker-php-ext-enable xdebug    
+RUN pecl install xdebug
 # Copia o arquivo de configuração do Xdebug para o diretório de conf do PHP
 COPY 90-xdebug.ini /usr/local/etc/php/conf.d/90-xdebug.ini
 
@@ -47,12 +46,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # Define o diretório de trabalho padrão dentro do container
 WORKDIR /var/www/html
-
-# Opcional: copiar o composer.json e composer.lock aqui
-# e rodar composer install para otimizar o cache da camada do Docker
-#COPY composer.json composer.lock ./
-#RUN composer install --no-dev --no-autoloader --no-scripts --optimize-autoloader
-
 
 # Create assets directory and set permissions
 RUN mkdir -p /var/www/html/web/assets

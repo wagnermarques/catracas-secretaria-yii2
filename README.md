@@ -1,3 +1,51 @@
+
+# Software Gerenciamento de acesso
+
+## Como utilizar o projeto na máquina de desenvolvimento
+
+### clonar o projeto
+
+git clone git@github.com:wagnermarques/catracas-secretaria-yii2.git
+
+ou 
+
+git clone https://github.com/wagnermarques/catracas-secretaria-yii2.git
+
+ou
+
+gh repo clone wagnermarques/catracas-secretaria-yii2
+
+### subir o projeto
+
+docker compose build --no-cache
+
+docker compose up -d
+
+docker exec -it eteczlcatracas-php-fpm composer install
+
+docker exec -it eteczlcatracas-php-fpm chmod -R 777 web/assets
+
+
+### tabelas do banco de dados
+
+ docker exec -it eteczlcatracas-php-fpm php yii migrate --interactive=0
+
+
+### Acessar o projeto
+
+  1. Main Application
+  The Nginx container is mapping port 80 to your host.
+   - URL: http://localhost (http://localhost)
+
+  2. phpMyAdmin (Database Management)
+  Mapped to port 8888.
+   - URL: http://localhost:8888 (http://localhost:8888)
+   - Host: eteczlcatracas-mysql (use this as the server name inside phpMyAdmin)
+   - User: eteczlcatracas_user
+   - Password: 1234
+
+
+
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">

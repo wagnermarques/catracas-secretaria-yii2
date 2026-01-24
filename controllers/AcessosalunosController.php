@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use app\models\Acessosalunos;
-use app\modelsAcessosalunosSearchModel;
+use app\models\AcessosalunosSearchModel;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,7 +38,7 @@ class AcessosalunosController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new modelsAcessosalunosSearchModel();
+        $searchModel = new AcessosalunosSearchModel();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [

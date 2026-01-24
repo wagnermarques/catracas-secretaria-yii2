@@ -9,6 +9,9 @@ use Yii;
  *
  * @property int $id
  * @property int $id_aluno
+ * @property string|null $timestampdapassagem
+ * @property string|null $timestampdoupdatepranuvem
+ * @property string|null $timestampdoupdatepranuvemAtUploading
  * @property string $data_acesso
  * @property string $hora_acesso
  *
@@ -32,7 +35,7 @@ class Acessosalunos extends \yii\db\ActiveRecord
         return [
             [['id_aluno', 'data_acesso', 'hora_acesso'], 'required'],
             [['id_aluno'], 'integer'],
-            [['data_acesso', 'hora_acesso'], 'safe'],
+            [['timestampdapassagem', 'timestampdoupdatepranuvem', 'timestampdoupdatepranuvemAtUploading', 'data_acesso', 'hora_acesso'], 'safe'],
             [['id_aluno'], 'exist', 'skipOnError' => true, 'targetClass' => Alunos::class, 'targetAttribute' => ['id_aluno' => 'id']],
         ];
     }
@@ -45,6 +48,9 @@ class Acessosalunos extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_aluno' => 'Id Aluno',
+            'timestampdapassagem' => 'Timestamp da Passagem',
+            'timestampdoupdatepranuvem' => 'Timestamp Update Nuvem',
+            'timestampdoupdatepranuvemAtUploading' => 'Timestamp Update Nuvem Uploading',
             'data_acesso' => 'Data Acesso',
             'hora_acesso' => 'Hora Acesso',
         ];
