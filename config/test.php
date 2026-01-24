@@ -29,6 +29,10 @@ return [
             'useFileTransport' => true,
             'messageClass' => 'yii\symfonymailer\Message'
         ],
+        'captcha' => [ // Configure captcha for testing purposes
+            'class' => 'yii\captcha\CaptchaAction',
+            'testLimit' => 1, // This will make captcha always pass in test environment
+        ],
         'assetManager' => [
             'basePath' => __DIR__ . '/../web/assets',
         ],

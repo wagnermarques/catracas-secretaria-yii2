@@ -1,18 +1,13 @@
 <?php
 
-use yii\helpers\Url;
-
 class HomeCest
 {
     public function ensureThatHomePageWorks(AcceptanceTester $I)
     {
-        $I->amOnPage(Url::toRoute('/site/index'));        
-        $I->see('My Company');
-        
-        $I->seeLink('About');
-        $I->click('About');
-        $I->wait(2); // wait for page to be opened
-        
-        $I->see('This is the About page.');
+        $I->amOnPage('index-test.php?r=site%2Findex');
+        $I->see('Catracas Secretaria');
+        $I->seeLink('Início'); // Changed from 'About' to 'Início'
+        $I->click('Início');
+        $I->see('Controle de Acesso!', 'h1.display-8'); // Assert something specific on the home page
     }
 }

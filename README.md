@@ -43,6 +43,17 @@ docker exec -it eteczlcatracas-php-fpm chmod -R 777 web/assets
    - Password: 1234
 
 
+# Rodar testes
+
+sudo docker exec -it eteczlcatracas-php-fpm chmod -R 777 runtime [in catracas-secretaria-yii2] (Set write permissions for the runtime directory in the PHP-FPM container.) 
+
+sudo docker exec -it eteczlcatracas-php-fpm vendor/bin/codecept run acceptance ContactCest --debug --steps [in catracas-secretaria-yii2] (Run the contact form acceptance tests with debugging after fixing per
+
+sudo docker exec -it eteczlcatracas-php-fpm vendor/bin/codecept run acceptance --debug --steps
+
+docker exec -it eteczlcatracas-php-fpm vendor/bin/codecept run acceptance HomeCest:ensureThatHomePageWorks --steps
+
+sudo docker exec -it eteczlcatracas-php-fpm vendor/bin/codecept run acceptance FuncionariosCreateCest --debug --steps
 
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">

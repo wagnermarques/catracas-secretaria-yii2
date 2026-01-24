@@ -6,6 +6,7 @@ class FuncionariosCreateCest
 {
     public function _before(AcceptanceTester $I)
     {
+        // Carrega a fixture de pessoas para que possamos selecionar uma no formulário
         $I->haveFixtures([
             'pessoas' => [
                 'class' => PessoasFixture::class,
@@ -16,23 +17,22 @@ class FuncionariosCreateCest
 
     public function createFuncionario(AcceptanceTester $I)
     {
-        $I->amOnPage('/site/login');
+        $I->amOnPage('index-test.php?r=site%2Flogin');
+        $I->seeCurrentUrlEquals('/index-test.php?r=site%2Flogin');
         $I->fillField('LoginForm[username]', 'admin');
         $I->fillField('LoginForm[password]', 'admin');
         $I->click('login-button');
         
-        $I->wait(1);
-        
-        $I->amOnPage('/funcionarios/create');
+        $I->amOnPage('index-test.php?r=funcionarios%2Fcreate');
         $I->see('Create Funcionarios', 'h1');
 
-        $I->selectOption('Funcionarios[pessoa_id]', '1'); 
+        // Preenche o campo de texto pessoa_id com o ID da pessoa da fixture
+        $I->fillField('Funcionarios[pessoa_id]', '1'); 
         $I->fillField('Funcionarios[cargo]', 'Desenvolvedor de Testes');
         
         $I->click('Save');
         
-        $I->wait(1);
         $I->see('Desenvolvedor de Testes');
-        $I->see('ID', 'th');
+        $I->see('ID', 'th'); // Verifica se está na página de visualização (view)
     }
 }
