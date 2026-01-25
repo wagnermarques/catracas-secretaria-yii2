@@ -49,7 +49,7 @@ jobs:
           script: |
             cd /home/${{ steps.vars.outputs.user }}/catracas-secretaria-yii2
             # Build and restart containers
-            docker-compose up -d --build
+            docker compose up -d --build
             
             # Wait for MySQL to be ready
             echo "Waiting for database..."
