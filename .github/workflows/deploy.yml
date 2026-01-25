@@ -12,33 +12,42 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Sanitize Inputs
+        id: vars
+        run: |
+          # This trims leading/trailing whitespace and newlines
+          CLEAN_USER=$(echo "${{ secrets.VM_SSH_USER }}" | xargs)
+          CLEAN_HOST=$(echo "${{ secrets.VM_SSH_HOST }}" | xargs)
+          echo "user=${CLEAN_USER}" >> $GITHUB_OUTPUT
+          echo "host=${CLEAN_HOST}" >> $GITHUB_OUTPUT
+
       - name: Deploy to VM via SSH/Rsync
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.VM_SSH_KEY }}
           ARGS: "-rlgoDzvc -i --delete"
-          REMOTE_HOST: ${{ secrets.VM_SSH_HOST }}
-          REMOTE_USER: ${{ secrets.VM_SSH_USER }}
-          TARGET: "/home/${{ secrets.VM_SSH_USER }}/catracas-secretaria-yii2"
+          REMOTE_HOST: ${{ steps.vars.outputs.host }}
+          REMOTE_USER: ${{ steps.vars.outputs.user }}
+          TARGET: "/home/${{ steps.vars.outputs.user }}/catracas-secretaria-yii2"
           EXCLUDE: "/vendor/, /runtime/, /web/assets/, /.git/, /.github/, /eteczlcatracas-db-data/, /node_modules/"
 
       - name: Create .env file on VM
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.VM_SSH_HOST }}
-          username: ${{ secrets.VM_SSH_USER }}
+          host: ${{ steps.vars.outputs.host }}
+          username: ${{ steps.vars.outputs.user }}
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
-            echo "${{ secrets.ENV_FILE }}" > /home/${{ secrets.VM_SSH_USER }}/catracas-secretaria-yii2/.env
+            echo "${{ secrets.ENV_FILE }}" > /home/${{ steps.vars.outputs.user }}/catracas-secretaria-yii2/.env
 
       - name: Execute remote Docker commands
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.VM_SSH_HOST }}
-          username: ${{ secrets.VM_SSH_USER }}
+          host: ${{ steps.vars.outputs.host }}
+          username: ${{ steps.vars.outputs.user }}
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
-            cd /home/${{ secrets.VM_SSH_USER }}/catracas-secretaria-yii2
+            cd /home/${{ steps.vars.outputs.user }}/catracas-secretaria-yii2
             # Build and restart containers
             docker-compose up -d --build
             
@@ -50,7 +59,6 @@ jobs:
             mkdir -p backups
             
             # Create a database backup before migrations
-            # We use the credentials defined in the docker-compose/env
             docker exec eteczlcatracas-mysql mysqldump -u eteczlcatracas_user -p1234 eteczlcatracas_db > backups/pre_migration_$(date +%Y%m%d_%H%M%S).sql
             
             # Install dependencies inside the PHP container
