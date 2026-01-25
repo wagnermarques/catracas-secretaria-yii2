@@ -1,0 +1,63 @@
+name: Deploy to Azure VM
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to VM via SSH/Rsync
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.VM_SSH_KEY }}
+          ARGS: "-rlgoDzvc -i --delete"
+          REMOTE_HOST: ${{ secrets.VM_SSH_HOST }}
+          REMOTE_USER: ${{ secrets.VM_SSH_USER }}
+          TARGET: "/home/${{ secrets.VM_SSH_USER }}/catracas-secretaria-yii2"
+          EXCLUDE: "/vendor/, /runtime/, /web/assets/, /.git/, /.github/, /eteczlcatracas-db-data/, /node_modules/"
+
+      - name: Create .env file on VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_SSH_HOST }}
+          username: ${{ secrets.VM_SSH_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            echo "${{ secrets.ENV_FILE }}" > /home/${{ secrets.VM_SSH_USER }}/catracas-secretaria-yii2/.env
+
+      - name: Execute remote Docker commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_SSH_HOST }}
+          username: ${{ secrets.VM_SSH_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            cd /home/${{ secrets.VM_SSH_USER }}/catracas-secretaria-yii2
+            # Build and restart containers
+            docker-compose up -d --build
+            
+            # Wait for MySQL to be ready
+            echo "Waiting for database..."
+            sleep 10
+            
+            # Create backup directory if it doesn't exist
+            mkdir -p backups
+            
+            # Create a database backup before migrations
+            # We use the credentials defined in the docker-compose/env
+            docker exec eteczlcatracas-mysql mysqldump -u eteczlcatracas_user -p1234 eteczlcatracas_db > backups/pre_migration_$(date +%Y%m%d_%H%M%S).sql
+            
+            # Install dependencies inside the PHP container
+            docker exec eteczlcatracas-php-fpm composer install --no-dev --optimize-autoloader
+            
+            # Run database migrations
+            docker exec eteczlcatracas-php-fpm php yii migrate --interactive=0
+            
+            # Ensure correct permissions for Yii runtime and assets
+            docker exec eteczlcatracas-php-fpm chown -R www-data:www-data runtime web/assets
