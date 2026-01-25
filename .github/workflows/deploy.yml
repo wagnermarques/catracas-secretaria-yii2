@@ -29,7 +29,7 @@ jobs:
           REMOTE_HOST: ${{ steps.vars.outputs.host }}
           REMOTE_USER: ${{ steps.vars.outputs.user }}
           TARGET: "/home/${{ steps.vars.outputs.user }}/catracas-secretaria-yii2"
-          EXCLUDE: "/vendor/,/runtime/,/web/assets/,/.git/,/.github/,/eteczlcatracas-db-data/,/node_modules/"
+          EXCLUDE: "vendor/,runtime/,web/assets/,/web/assets/*,.git/,.github/,eteczlcatracas-db-data/,node_modules/"
 
       - name: Create .env file on VM
         uses: appleboy/ssh-action@master
