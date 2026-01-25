@@ -38,7 +38,9 @@ jobs:
           username: ${{ steps.vars.outputs.user }}
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
-            echo "${{ secrets.ENV_FILE }}" > /home/${{ steps.vars.outputs.user }}/catracas-secretaria-yii2/.env
+            cat << 'EOF' > /home/${{ steps.vars.outputs.user }}/catracas-secretaria-yii2/.env
+            ${{ secrets.ENV_FILE }}
+            EOF
 
       - name: Execute remote Docker commands
         uses: appleboy/ssh-action@master
