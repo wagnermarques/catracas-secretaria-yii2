@@ -16,7 +16,7 @@ class RelatoriosController extends Controller
      */
     public function actionFirebasePassagens()
     {
-        $collectionName = 'catracaspassagens';
+        $collectionName = 'catracapassagens';
         $guzzleClient = Yii::$app->guzzleClient;
         $firebaseRestClient = new GuzzleClientWrapperForFirebase($guzzleClient);
 

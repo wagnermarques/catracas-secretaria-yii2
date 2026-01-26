@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        Exibindo documentos da coleção <code>catracaspassagens</code> no Firestore.
+        Exibindo documentos da coleção <code>catracapassagens</code> no Firestore.
     </p>
 
     <?= GridView::widget([
