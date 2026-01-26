@@ -72,12 +72,9 @@ jobs:
             # Wait for MySQL to be ready
             echo "Waiting for database..."
             sleep 15
-            
-            # Create backup directory if it doesn't exist
-            mkdir -p backups
-            
+                        
             # Create a database backup before migrations
-            docker exec eteczlcatracas-mysql mysqldump -u eteczlcatracas_user -p1234 eteczlcatracas_db > backups/pre_migration_$(date +%Y%m%d_%H%M%S).sql
+            docker exec eteczlcatracas-mysql mysqldump -uroot -p1234 eteczlcatracas_db > pre_migration_$(date +%Y%m%d_%H%M%S).sql
             
             # Install dependencies inside the PHP container
             docker exec eteczlcatracas-php-fpm composer install --no-dev --optimize-autoloader

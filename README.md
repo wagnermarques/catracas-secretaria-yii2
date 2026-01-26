@@ -45,11 +45,13 @@ docker exec -it eteczlcatracas-php-fpm chmod -R 777 web/assets
 
 # Rodar testes
 
-sudo docker exec -it eteczlcatracas-php-fpm chmod -R 777 runtime [in catracas-secretaria-yii2] (Set write permissions for the runtime directory in the PHP-FPM container.) 
+sudo docker exec -it eteczlcatracas-php-fpm chmod -R 777 runtime (permite escrita no diretorio runtime)
+
+sudo docker exec -it eteczlcatracas-php-fpm vendor/bin/codecept run acceptance --debug --steps
 
 sudo docker exec -it eteczlcatracas-php-fpm vendor/bin/codecept run acceptance ContactCest --debug --steps [in catracas-secretaria-yii2] (Run the contact form acceptance tests with debugging after fixing per
 
-sudo docker exec -it eteczlcatracas-php-fpm vendor/bin/codecept run acceptance --debug --steps
+
 
 docker exec -it eteczlcatracas-php-fpm vendor/bin/codecept run acceptance HomeCest:ensureThatHomePageWorks --steps
 
