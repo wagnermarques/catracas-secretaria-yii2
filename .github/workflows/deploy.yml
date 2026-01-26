@@ -50,12 +50,16 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd /home/${{ steps.vars.outputs.user }}/catracas-secretaria-yii2
-            # Build and restart containers
+            # Force recreation of all containers to ensure fresh state
+            docker compose down
             docker compose up -d --build
+            
+            # Check if all containers are actually running
+            docker ps
             
             # Wait for MySQL to be ready
             echo "Waiting for database..."
-            sleep 10
+            sleep 15
             
             # Create backup directory if it doesn't exist
             mkdir -p backups
