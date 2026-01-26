@@ -38,8 +38,8 @@ docker exec -it eteczlcatracas-php-fpm chmod -R 777 web/assets
 
   2. phpMyAdmin
    - URL: http://localhost:8888
-   - Host: eteczlcatracas-mysql
-   - User: eteczlcatracas_user
+   - Host: use .env
+   - User: use .env
    - Password: 1234
 
 
