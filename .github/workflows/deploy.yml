@@ -62,25 +62,24 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd /home/${{ steps.vars.outputs.user }}/catracas-secretaria-yii2
-            # Force recreation of all containers to ensure fresh state
+            echo ######### Force recreation of all containers to ensure fresh state
             docker compose down
             docker compose up -d --build
             
-            # Check if all containers are actually running
+            echo ######### Check if all containers are actually running
             docker ps
             
-            # Wait for MySQL to be ready
-            echo "Waiting for database..."
-            sleep 15
+            echo #########  Wait for MySQL to be ready            
+            sleep 25
                         
-            # Create a database backup before migrations
+            echo #########  Create a database backup before migrations
             docker exec eteczlcatracas-mysql mysqldump -uroot -p1234 eteczlcatracas_db > pre_migration_$(date +%Y%m%d_%H%M%S).sql
             
-            # Install dependencies inside the PHP container
+            echo ######### Install dependencies inside the PHP container
             docker exec eteczlcatracas-php-fpm composer install --no-dev --optimize-autoloader
             
-            # Run database migrations
+            echo ######### Run database migrations
             docker exec eteczlcatracas-php-fpm php yii migrate --interactive=0
             
-            # Ensure correct permissions for Yii runtime and assets
+            echo ######### Ensure correct permissions for Yii runtime and assets
             docker exec eteczlcatracas-php-fpm chown -R www-data:www-data runtime web/assets
