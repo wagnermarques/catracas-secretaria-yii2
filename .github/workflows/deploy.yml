@@ -62,6 +62,10 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd /home/${{ steps.vars.outputs.user }}/catracas-secretaria-yii2
+
+            echo "######### prevent git problems in /var/www/html dir"
+            docker exec eteczlcatracas-php-fpm git config --global --add safe.directory /var/www/html
+
             echo "######### Force recreation of all containers to ensure fresh state"
             docker compose down
             docker compose build --parallel --no-cache
