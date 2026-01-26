@@ -8,11 +8,21 @@
  * @license https://www.yiiframework.com/license/
  */
 
-defined('YII_DEBUG') or define('YII_DEBUG', true);
-defined('YII_ENV') or define('YII_ENV', 'dev');
-
+// 1. Carrega o Autoload PRIMEIRO para poder usar as classes (incluindo Dotenv)
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/vendor/yiisoft/yii2/Yii.php';
+
+// 2. Carrega as variáveis de ambiente do .env
+// Usamos safeLoad() para não quebrar se o arquivo .env não existir (em produção real Docker as vezes passa direto)
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->safeLoad();
+
+// 3. Define as constantes do Yii usando os valores carregados
+// Usamos 'getenv' como fallback caso $_ENV não esteja populado (comum em alguns ambientes Docker)
+$debugEnv = $_ENV['APP_DEBUG_MODE'] ?? getenv('APP_DEBUG_MODE');
+$appEnv   = $_ENV['APP_ENVIRONMENT'] ?? getenv('APP_ENVIRONMENT');
+
+
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ );
 $dotenv->load();
