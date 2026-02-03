@@ -42,7 +42,7 @@ class AlunosController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Alunos::find(),
+            'query' => Alunos::find()->with('pessoa'),
             /*
             'pagination' => [
                 'pageSize' => 50
