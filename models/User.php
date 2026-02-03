@@ -2,15 +2,19 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use yii\base\BaseObject;
+use yii\web\IdentityInterface;
+
+class User extends BaseObject implements IdentityInterface
 {
     public $id;
     public $username;
     public $password;
     public $authKey;
     public $accessToken;
+    public $pessoa_id;
 
-    private static $users = [
+    private static $staticUsers = [
         '100' => [
             'id' => '100',
             'username' => 'admin',
@@ -27,13 +31,27 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
         ],
     ];
 
-
     /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        if (isset(self::$staticUsers[$id])) {
+            return new static(self::$staticUsers[$id]);
+        }
+
+        $dbUser = UsuariosSistema::findOne($id);
+        if ($dbUser) {
+            return new static([
+                'id' => $dbUser->id,
+                'username' => $dbUser->loginname,
+                'password' => $dbUser->password,
+                'authKey' => $dbUser->auth_key,
+                'accessToken' => $dbUser->access_token,
+                'pessoa_id' => $dbUser->pessoa_id,
+            ]);
+        }
+        return null;
     }
 
     /**
@@ -41,12 +59,23 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
+        foreach (self::$staticUsers as $user) {
             if ($user['accessToken'] === $token) {
                 return new static($user);
             }
         }
 
+        $dbUser = UsuariosSistema::findOne(['access_token' => $token]);
+        if ($dbUser) {
+            return new static([
+                'id' => $dbUser->id,
+                'username' => $dbUser->loginname,
+                'password' => $dbUser->password,
+                'authKey' => $dbUser->auth_key,
+                'accessToken' => $dbUser->access_token,
+                'pessoa_id' => $dbUser->pessoa_id,
+            ]);
+        }
         return null;
     }
 
@@ -58,12 +87,23 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        foreach (self::$users as $user) {
+        foreach (self::$staticUsers as $user) {
             if (strcasecmp($user['username'], $username) === 0) {
                 return new static($user);
             }
         }
 
+        $dbUser = UsuariosSistema::findOne(['loginname' => $username]);
+        if ($dbUser) {
+            return new static([
+                'id' => $dbUser->id,
+                'username' => $dbUser->loginname,
+                'password' => $dbUser->password,
+                'authKey' => $dbUser->auth_key,
+                'accessToken' => $dbUser->access_token,
+                'pessoa_id' => $dbUser->pessoa_id,
+            ]);
+        }
         return null;
     }
 
@@ -102,7 +142,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
         return $this->password === $password;
     }
 
-        /**
+    /**
      * {@inheritdoc}
      */
     public function attributeLabels()
@@ -114,5 +154,4 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
             'rememberMe' => 'Lembrar de mim'
         ];
     }
-
 }

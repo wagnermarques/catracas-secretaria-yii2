@@ -50,6 +50,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                  ['label' => 'Status do Aluno','url' => ['/alunos-status/index']],
                  ['label' => 'Acessos Alunos' ,'url' => ['acessosalunos/index']],
                  ['label' => 'Catracas'       ,'url' => ['/catraca/index']],
+                 ['label' => 'Usuários Sistema','url' => ['/usuarios-sistema/index']],
              ]
             ],
             ['label' => 'Relatórios',
