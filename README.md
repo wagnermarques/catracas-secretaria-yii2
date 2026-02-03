@@ -1,7 +1,7 @@
 
 # Software Gerenciamento de acesso
 
-## Como utilizar o projeto na máquina de desenvolvimento
+## Como utilizar o projeto na mÃ¡quina de desenvolvimento
 
 ### clonar o projeto
 
@@ -40,7 +40,9 @@ docker exec -it eteczlcatracas-php-fpm chmod -R 777 web/assets
    - URL: http://localhost:8888
    - Host: use .env
    - User: use .env
-   - Password: 1234
+   - Password: .env
+
+###
 
 
 # Rodar testes
@@ -56,6 +58,11 @@ sudo docker exec -it eteczlcatracas-php-fpm vendor/bin/codecept run acceptance C
 docker exec -it eteczlcatracas-php-fpm vendor/bin/codecept run acceptance HomeCest:ensureThatHomePageWorks --steps
 
 sudo docker exec -it eteczlcatracas-php-fpm vendor/bin/codecept run acceptance FuncionariosCreateCest --debug --steps
+
+
+# monitorar
+
+docker exec -it eteczlcatracas-php-fpm tail -f runtime/logs/info_and_warnings.log
 
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">

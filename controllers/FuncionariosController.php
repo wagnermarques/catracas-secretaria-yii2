@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Pessoas;
 use app\models\Funcionarios;
 use app\models\FuncionariosSearchModel;
 use yii\web\Controller;
@@ -68,6 +69,7 @@ class FuncionariosController extends Controller
     public function actionCreate()
     {
         $model = new Funcionarios();
+        $pessoas = Pessoas::find()->all();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -79,6 +81,7 @@ class FuncionariosController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'pessoas' => $pessoas,
         ]);
     }
 
@@ -92,6 +95,7 @@ class FuncionariosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $pessoas = Pessoas::find()->all();
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -99,6 +103,7 @@ class FuncionariosController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'pessoas' => $pessoas,
         ]);
     }
 

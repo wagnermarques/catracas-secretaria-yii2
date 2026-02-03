@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Alunos;
 use app\models\Carteirinha;
 use app\models\CarteirinhaSearchModel;
 use yii\web\Controller;
@@ -68,6 +69,14 @@ class CarteirinhaController extends Controller
     public function actionCreate()
     {
         $model = new Carteirinha();
+        // Fetch all students with their person data
+        $alunos = Alunos::find()->with('pessoa')->all();
+        
+        // Set default student if passed in query params
+        $id_aluno = $this->request->get('id_aluno');
+        if ($id_aluno) {
+            $model->id_aluno = $id_aluno;
+        }
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -75,10 +84,15 @@ class CarteirinhaController extends Controller
             }
         } else {
             $model->loadDefaultValues();
+            // Re-assign id_aluno if loadDefaultValues overwrote it, though typically it shouldn't unless explicitly set in default values
+             if ($id_aluno) {
+                $model->id_aluno = $id_aluno;
+            }
         }
 
         return $this->render('create', [
             'model' => $model,
+            'alunos' => $alunos,
         ]);
     }
 
@@ -92,6 +106,7 @@ class CarteirinhaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $alunos = Alunos::find()->with('pessoa')->all();
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -99,6 +114,7 @@ class CarteirinhaController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'alunos' => $alunos,
         ]);
     }
 
@@ -130,5 +146,19 @@ class CarteirinhaController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * Returns a JSON list of all active Carteirinhas.
+     * @return array
+     */
+    public function actionActiveList()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        
+        return Carteirinha::find()
+            ->where(['ativa' => true])
+            ->asArray()
+            ->all();
     }
 }

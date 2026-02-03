@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => $_ENV['PDO_DSN'], 
-    'username' => $_ENV['DB_USER'],
-    'password' => $_ENV['DB_PASS'],
+    'dsn' => $_ENV['PDO_DSN'] ?? getenv('PDO_DSN'), 
+    'username' => $_ENV['DB_USER'] ?? getenv('DB_USER'),
+    'password' => $_ENV['DB_PASS'] ?? getenv('DB_PASS'),
     'charset' => 'utf8',
 
     #

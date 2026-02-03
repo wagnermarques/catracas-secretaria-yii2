@@ -11,6 +11,9 @@ use app\models\Carteirinha;
  */
 class CarteirinhaSearchModel extends Carteirinha
 {
+    public $ra;
+    public $aluno_nome;
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +21,7 @@ class CarteirinhaSearchModel extends Carteirinha
     {
         return [
             [['id', 'id_aluno', 'ativa'], 'integer'],
-            [['data_emissao', 'data_validade', 'observacao'], 'safe'],
+            [['data_emissao', 'data_validade', 'observacao', 'ra', 'aluno_nome'], 'safe'],
         ];
     }
 
@@ -41,12 +44,23 @@ class CarteirinhaSearchModel extends Carteirinha
     public function search($params)
     {
         $query = Carteirinha::find();
+        $query->joinWith(['aluno.pessoa']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['ra'] = [
+            'asc' => ['alunos.ra' => SORT_ASC],
+            'desc' => ['alunos.ra' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['aluno_nome'] = [
+            'asc' => ['pessoas.firstname' => SORT_ASC],
+            'desc' => ['pessoas.firstname' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -58,14 +72,26 @@ class CarteirinhaSearchModel extends Carteirinha
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'carteirinha.id' => $this->id,
             'id_aluno' => $this->id_aluno,
-            'data_emissao' => $this->data_emissao,
-            'data_validade' => $this->data_validade,
+            //'data_emissao' => $this->data_emissao,
+            //'data_validade' => $this->data_validade,
             'ativa' => $this->ativa,
         ]);
 
-        $query->andFilterWhere(['like', 'observacao', $this->observacao]);
+        $query->andFilterWhere(['like', 'observacao', $this->observacao])
+              ->andFilterWhere(['like', 'alunos.ra', $this->ra])
+              ->andFilterWhere(['or', 
+                  ['like', 'pessoas.firstname', $this->aluno_nome],
+                  ['like', 'pessoas.lastname', $this->aluno_nome]
+              ]);
+
+        if ($this->data_emissao) {
+            $query->andFilterWhere(['like', 'data_emissao', \DateTime::createFromFormat('d/m/Y', $this->data_emissao)->format('Y-m-d')]);
+        }
+        if ($this->data_validade) {
+             $query->andFilterWhere(['like', 'data_validade', \DateTime::createFromFormat('d/m/Y', $this->data_validade)->format('Y-m-d')]);
+        }
 
         return $dataProvider;
     }

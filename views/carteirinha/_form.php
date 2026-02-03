@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var app\models\Carteirinha $model */
 /** @var yii\widgets\ActiveForm $form */
+/** @var app\models\Alunos[] $alunos */
 ?>
 
 <div class="carteirinha-form">
@@ -14,7 +15,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'carteirinha_id')->textInput() ?>        
 
-    <?= $form->field($model, 'id_aluno')->textInput() ?>
+    <?= $form->field($model, 'id_aluno')->dropDownList(
+        \yii\helpers\ArrayHelper::map($alunos, 'id', function($aluno) {
+            return ($aluno->pessoa ? $aluno->pessoa->firstname . ' ' . $aluno->pessoa->lastname : 'Sem Nome') . ' (RA: ' . $aluno->ra . ')';
+        }),
+        ['prompt' => 'Selecione um Aluno']
+    ) ?>
 
     <?= $form->field($model, 'data_emissao')->textInput() ?>
 

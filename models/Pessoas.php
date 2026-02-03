@@ -79,4 +79,39 @@ class Pessoas extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Alunos::class, ['pessoa_id' => 'id']);
     }
+
+    /**
+     * Validates the CPF.
+     * This method serves as the inline validator for the CPF attribute.
+     *
+     * @param string $attribute the attribute currently being validated
+     * @param array|null $params the additional name-value pairs given in the rule
+     */
+    public function validateCpf($attribute, $params)
+    {
+        $cpf = preg_replace('/[^0-9]/', '', $this->$attribute);
+
+        if (strlen($cpf) != 11) {
+            $this->addError($attribute, 'CPF inválido.');
+            return;
+        }
+
+        // Check for repeated digits
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
+             $this->addError($attribute, 'CPF inválido.');
+             return;
+        }
+
+        // Validate check digits
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf[$c] != $d) {
+                $this->addError($attribute, 'CPF inválido.');
+                return;
+            }
+        }
+    }
 }

@@ -31,7 +31,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'id_aluno',
+            [
+                'attribute' => 'aluno_nome',
+                'label' => 'Aluno',
+                'value' => function ($model) {
+                    return $model->aluno && $model->aluno->pessoa ? $model->aluno->pessoa->firstname . ' ' . $model->aluno->pessoa->lastname : '';
+                },
+            ],
+            [
+                'attribute' => 'ra',
+                'label' => 'RA',
+                'value' => 'aluno.ra',
+            ],
             'data_emissao',
             'data_validade',
             'ativa',

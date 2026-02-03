@@ -80,8 +80,17 @@ class PessoaController extends Controller
         $model = new Pessoas();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            \Yii::info('Tentando criar uma nova Pessoa. POST data: ' . json_encode($this->request->post()), 'app');
+            if ($model->load($this->request->post())) {
+                \Yii::info('Atributos carregados no modelo Pessoas.', 'app');
+                if ($model->save()) {
+                    \Yii::info('Pessoa salva com sucesso. ID: ' . $model->id, 'app');
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    \Yii::error('Erro ao salvar Pessoa. Erros: ' . json_encode($model->getErrors()), 'app');
+                }
+            } else {
+                \Yii::warning('Falha ao carregar dados do POST no modelo Pessoas.', 'app');
             }
         } else {
             $model->loadDefaultValues();
@@ -103,8 +112,19 @@ class PessoaController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost) {
+            \Yii::info('Tentando atualizar Pessoa ID: ' . $id . '. POST data: ' . json_encode($this->request->post()), 'app');
+            if ($model->load($this->request->post())) {
+                \Yii::info('Atributos carregados para atualização da Pessoa ID: ' . $id, 'app');
+                if ($model->save()) {
+                    \Yii::info('Pessoa ID: ' . $id . ' atualizada com sucesso.', 'app');
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    \Yii::error('Erro ao atualizar Pessoa ID: ' . $id . '. Erros: ' . json_encode($model->getErrors()), 'app');
+                }
+            } else {
+                \Yii::warning('Falha ao carregar dados do POST para atualização da Pessoa ID: ' . $id, 'app');
+            }
         }
 
         return $this->render('update', [

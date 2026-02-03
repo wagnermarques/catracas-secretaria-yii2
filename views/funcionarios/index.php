@@ -30,10 +30,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'pessoa_id',
+            [
+                'attribute' => 'pessoa_id',
+                'label' => 'Nome',
+                'value' => function ($model) {
+                    return $model->pessoa ? $model->pessoa->firstname . ' ' . $model->pessoa->lastname : '';
+                },
+            ],
             'cargo',
-            'created_at',
-            'updated_at',
+            [
+                'attribute' => 'created_at',
+                'format' => ['datetime', 'php:d/m/Y H:i:s'],
+            ],
+            [
+                'attribute' => 'updated_at',
+                'format' => ['datetime', 'php:d/m/Y H:i:s'],
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Funcionarios $model, $key, $index, $column) {

@@ -6,13 +6,19 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var app\models\Funcionarios $model */
 /** @var yii\widgets\ActiveForm $form */
+/** @var app\models\Pessoas[] $pessoas */
 ?>
 
 <div class="funcionarios-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'pessoa_id')->textInput() ?>
+    <?= $form->field($model, 'pessoa_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map($pessoas, 'id', function($pessoa) {
+            return $pessoa->firstname . ' ' . $pessoa->lastname;
+        }),
+        ['prompt' => 'Selecione uma Pessoa']
+    ) ?>
 
     <?= $form->field($model, 'cargo')->textInput(['maxlength' => true]) ?>
 

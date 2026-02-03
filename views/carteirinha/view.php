@@ -30,7 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'id_aluno',
+            [
+                'label' => 'Aluno',
+                'value' => $model->aluno && $model->aluno->pessoa ? $model->aluno->pessoa->firstname . ' ' . $model->aluno->pessoa->lastname . ' (RA: ' . $model->aluno->ra . ')' : '',
+            ],
             'data_emissao',
             'data_validade',
             'ativa',

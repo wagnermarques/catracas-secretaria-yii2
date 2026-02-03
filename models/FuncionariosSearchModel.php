@@ -41,7 +41,7 @@ class FuncionariosSearchModel extends Funcionarios
      */
     public function search($params, $formName = null)
     {
-        $query = Funcionarios::find();
+        $query = Funcionarios::find()->with('pessoa');
 
         // add conditions that should always apply here
 

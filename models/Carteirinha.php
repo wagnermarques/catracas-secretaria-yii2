@@ -27,16 +27,44 @@ class Carteirinha extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function init()
+    {
+        parent::init();
+        if ($this->isNewRecord && empty($this->data_emissao)) {
+            $this->data_emissao = date('d/m/Y');
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
             [['id_aluno', 'carteirinha_id', 'data_emissao', 'data_validade'], 'required'],
             [['id_aluno'], 'integer'],
-            [['ativa', 'carteirinha_id','data_emissao', 'data_validade'], 'safe'],
-            [['data_emissao', 'data_validade'], 'date' , 'format' => 'dd/MM/yyyy', 'message' => 'Formato da data invalida: Use dd/mm/aaaa'],
-            [['id_aluno'], 'exist', 'skipOnError' => true, 'targetClass' => Alunos::class, 'targetAttribute' => ['id_aluno' => 'id'], 'message' => 'Aluno n�o encontrado'],
-            [['id_aluno'], 'exist', 'skipOnError' => true, 'targetClass' => Alunos::class, 'targetAttribute' => ['id_aluno' => 'id']],
+            [['ativa', 'carteirinha_id','data_emissao', 'data_validade', 'observacao'], 'safe'],
+            [['observacao'], 'string'],
+            [['data_emissao', 'data_validade'], 'date' , 'format' => 'php:d/m/Y', 'message' => 'Formato da data invalida: Use dd/mm/aaaa'],
+            ['data_validade', 'validateDates'],
+            [['id_aluno'], 'exist', 'skipOnError' => true, 'targetClass' => Alunos::class, 'targetAttribute' => ['id_aluno' => 'id'], 'message' => 'Aluno não encontrado'],
+            ['carteirinha_id', 'unique', 'message' => 'Este Identificador da Carteirinha já está em uso.'],
         ];
+    }
+
+    /**
+     * Custom validator to ensure validity date is after emission date.
+     */
+    public function validateDates($attribute, $params)
+    {
+        if (!$this->hasErrors()) {
+            $emissao = \DateTime::createFromFormat('d/m/Y', $this->data_emissao);
+            $validade = \DateTime::createFromFormat('d/m/Y', $this->data_validade);
+
+            if ($emissao && $validade && $validade <= $emissao) {
+                $this->addError($attribute, 'A data de validade deve ser posterior à data de emissão.');
+            }
+        }
     }
 
     /**
@@ -50,6 +78,8 @@ class Carteirinha extends \yii\db\ActiveRecord
             'id_aluno' => 'Id Aluno',
             'data_emissao' => 'Data Emissao',
             'data_validade' => 'Data Validade',
+            'ativa' => 'Ativa',
+            'observacao' => 'Observação',
         ];
     }
 
@@ -78,10 +108,9 @@ class Carteirinha extends \yii\db\ActiveRecord
             if (!empty($this->data_emissao)) {
                 $date = \DateTime::createFromFormat('d/m/Y', $this->data_emissao);
                 if ($date) {
-                    $this->data_emissao = $date->format('Y-m-d h:m:s');
+                    $this->data_emissao = $date->format('Y-m-d H:i:s');
                 } else {
                     $this->addError('data_emissao', 'Data Invalida.');
-                    Yii::trace(__METHOD__ . ' - ' . __LINE__ . ' - ' . print_r($this->getErrors(), true));
                     return false;
                 }
             }
@@ -106,17 +135,14 @@ class Carteirinha extends \yii\db\ActiveRecord
     {
         parent::afterFind();
         if (!empty($this->data_emissao)) {
-            // Convert from YYYY-MM-DD 2025-01-30 00:00:00 to DD/MM/YYYY
-            $date = \DateTime::createFromFormat('Y-m-d h:m:s', $this->data_emissao);
-            
+            $date = \DateTime::createFromFormat('Y-m-d H:i:s', $this->data_emissao);
             if ($date) {
                 $this->data_emissao = $date->format('d/m/Y');
             }
         }
 
         if (!empty($this->data_validade)) {
-            // Convert from YYYY-MM-DD to DD/MM/YYYY
-            $date = \DateTime::createFromFormat('Y-m-d h:m:s', $this->data_validade);
+            $date = \DateTime::createFromFormat('Y-m-d', $this->data_validade);
             if ($date) {
                 $this->data_validade = $date->format('d/m/Y');
             }
