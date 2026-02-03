@@ -56,6 +56,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             ['label' => 'Relatórios',
              'items' => [
                  ['label' => 'Passagens (Firebase)', 'url' => ['/relatorios/firebase-passagens']],
+                 ['label' => 'Passagens (Local)', 'url' => ['/catraca-passagem/index']],
                  ['label' => 'Contato (Site)', 'url' => ['/site/contact']],
              ]
             ],

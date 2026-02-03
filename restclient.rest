@@ -1,0 +1,21 @@
+:aluno_id = 1
+:catraca_id = 51
+
+POST http://localhost/catraca-passagem-apis
+Content-Type: application/json
+
+{
+  "id_aluno": :aluno_id,
+  "cartaoid": "UID123456789111",
+  "catracaid": :catraca_id,
+  "timestampdapassagem": "2026-02-03 16:30:00",
+  "status": "Autorizado"
+}
+
+
+#HTTP	Endpoint	Ação
+#GET	/catraca-passagem-api	lista registros
+#GET	/catraca-passagem-api/1	busca ID 1
+#POST	/catraca-passagem-api	cria
+#PUT	/catraca-passagem-api/1	atualiza
+#DELETE	/catraca-passagem-api/1	remove

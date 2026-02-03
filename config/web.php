@@ -24,6 +24,9 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'KS3I0HPmcOnJ0oiC4rXB-SVAMXMgTtgv',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -74,14 +77,13 @@ $config = [
         'class' => Client::class,
         'singleton' => true,
     ],    
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'catraca-passagem-api'],
             ],
         ],
-        */
     'i18n' => [
             'translations' => [
                 'app*' => [
@@ -116,7 +118,7 @@ $config = [
     ], //components
     'as access' => [
         'class' => 'yii\filters\AccessControl',
-        'except' => ['site/login', 'site/error'],
+        'except' => ['site/login', 'site/error', 'catraca-passagem-api/*'],
         'rules' => [
             [
                 'allow' => true,

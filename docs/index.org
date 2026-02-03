@@ -1,0 +1,20 @@
+#+Title: Documentação
+
+* Servicos Web
+
+./docs/restclient.rest é um documento com endpoint de serviços rest da
+aplicação
+
+
+* TODOS
+** obter hora oficial a partir de um ntp
+** incluir autenticacao no registro da catraca
+** inserir timetamp do envio da passagem na catraca
+   + No model CatracaPassagens, inserir o campo do timestamp do envio da
+   informacao
+
+   + verificar se tem lastupdate
+
+   + decicir se vai mostrar na view o timestamp de envio
+     http://localhost/catraca-passagem/index
+     

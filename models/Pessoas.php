@@ -61,7 +61,7 @@ class Pessoas extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'firtsname' => 'Primeiro Nome',
+            'firstname' => 'Primeiro Nome',
             'lastname' => 'Sobrenome',
             'emailpessoal' => 'Email Pessoal',
             'idade' => 'Idade',
@@ -78,6 +78,15 @@ class Pessoas extends \yii\db\ActiveRecord
     public function getAlunos()
     {
         return $this->hasMany(Alunos::class, ['pessoa_id' => 'id']);
+    }
+
+    /**
+     * Returns the full name of the person.
+     * @return string
+     */
+    public function getNome()
+    {
+        return trim($this->firstname . ' ' . $this->lastname);
     }
 
     /**
