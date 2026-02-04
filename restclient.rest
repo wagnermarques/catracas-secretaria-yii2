@@ -1,7 +1,64 @@
+:dominio = localhost
+#:dominio = 172.179.183.68
+:baseUrl = http://:dominio
+
+#################################
+####      carteirinhas      #####
+#################################
+:carteirinha_id = 1
+
+# 1. Get all carteirinhas (Index)
+GET :baseUrl/carteirinha-api
+Accept: application/json
+
+###
+
+# 2. Get active list (Custom Action)
+# Matches actionActiveList()
+GET :baseUrl/carteirinha-api/active-list
+Accept: application/json
+
+###
+
+# 3. View a single carteirinha
+GET :baseUrl/carteirinha-api/:carteirinha_id
+Accept: application/json
+
+###
+
+# 4. Create a new carteirinha
+POST :baseUrl/carteirinha-api
+Content-Type: application/json
+
+{
+  "nome": "John Doe",
+  "codigo": "12345",
+  "ativa": 1
+}
+
+###
+
+# 5. Update a carteirinha (Partial)
+PATCH :baseUrl/carteirinha-api/:carteirinha_id
+Content-Type: application/json
+
+{
+  "ativa": 0
+}
+
+###
+
+# 6. Delete a carteirinha
+DELETE :baseUrl/carteirinha-api/:carteirinha_id
+
+
+#################################
+#### catraca-passagens-apis #####
+#################################
 :aluno_id = 1
 :catraca_id = 51
 
-POST http://localhost/catraca-passagem-apis
+POST :baseUrl/catraca-passagem-apis
 Content-Type: application/json
 
 {
@@ -11,11 +68,3 @@ Content-Type: application/json
   "timestampdapassagem": "2026-02-03 16:30:00",
   "status": "Autorizado"
 }
-
-
-#HTTP	Endpoint	Ação
-#GET	/catraca-passagem-api	lista registros
-#GET	/catraca-passagem-api/1	busca ID 1
-#POST	/catraca-passagem-api	cria
-#PUT	/catraca-passagem-api/1	atualiza
-#DELETE	/catraca-passagem-api/1	remove

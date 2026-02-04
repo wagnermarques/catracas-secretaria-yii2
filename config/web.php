@@ -59,7 +59,8 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['info', 'error'],
                     'logVars' => [], // Impede o log das superglobais
-                    'logFile' => '@runtime/logs/info_and_warnings.log'                    
+                    'logFile' => '@runtime/logs/info_and_warnings.log',
+                    'categories' => ['app*'],
                 ],
             ],
         ],
@@ -72,19 +73,30 @@ $config = [
             'thousandSeparator' => '.',
             'currencyCode' => 'BRL',
         ],
-    'db' => $db,
-    'guzzleClient' => [
-        'class' => Client::class,
-        'singleton' => true,
-    ],    
+        'db' => $db,
+        'guzzleClient' => [
+            'class' => Client::class,
+            'singleton' => true,
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'catraca-passagem-api'],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'catraca-passagem-api'
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'carteirinha-api',
+                    'extraPatterns' => [
+                        'GET active-list' => 'active-list',
+                    ],
+                ],
+
             ],
         ],
-    'i18n' => [
+        'i18n' => [
             'translations' => [
                 'app*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
@@ -118,7 +130,12 @@ $config = [
     ], //components
     'as access' => [
         'class' => 'yii\filters\AccessControl',
-        'except' => ['site/login', 'site/error', 'catraca-passagem-api/*'],
+        'except' => [
+            'site/login',
+            'site/error',
+            'catraca-passagem-api/*',
+            'carteirinha-api/*'
+        ],
         'rules' => [
             [
                 'allow' => true,

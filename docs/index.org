@@ -1,9 +1,39 @@
-#+Title: Documentação
+#+Title: DocumentaÃ§Ã£o
+
+
+* iniciar aplicaçao máquina de dev
+
+docker compose --build -d
+
+rodar as migration no container:
+
+docker exec -it eteczlcatracas-php-fpm composer install
+
+docker exec -it eteczlcatracas-php-fpm chmod -R 777 web/assets
+
+docker exec -it eteczlcatracas-php-fpm php yii migrate --interactive=0
+
+monitorar
+
+docker exec -it eteczlcatracas-php-fpm tail -f runtime/logs/info_and_warnings.log
+
+
+* permissoes
+
+** pros logs funcionar (provisorio)
+
+sudo chmod 777 -R runtime/logs/
+
+docker exec -it eteczlcatracas-php-fpm chmod 777 -R runtime/logs
+
+
+
 
 * Servicos Web
 
-./docs/restclient.rest é um documento com endpoint de serviços rest da
-aplicação
+./docs/restclient.rest Ã© um documento com endpoint de serviÃ§os rest
+da aplicação
+
 
 
 * TODOS
