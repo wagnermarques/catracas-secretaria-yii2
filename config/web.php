@@ -82,6 +82,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'POST carteirinha-api' => 'carteirinha-api/create',
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'catraca-passagem-api'
@@ -89,6 +90,7 @@ $config = [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'carteirinha-api',
+                    'pluralize' => false,
                     'extraPatterns' => [
                         'GET active-list' => 'active-list',
                     ],

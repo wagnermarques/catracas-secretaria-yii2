@@ -1,5 +1,6 @@
 :dominio = localhost
 #:dominio = 172.179.183.68
+:dominio = 192.168.3.102
 :baseUrl = http://:dominio
 
 #################################
@@ -21,6 +22,7 @@ Accept: application/json
 ###
 
 # 3. View a single carteirinha
+:carteirinha_id = 1
 GET :baseUrl/carteirinha-api/:carteirinha_id
 Accept: application/json
 
@@ -31,9 +33,8 @@ POST :baseUrl/carteirinha-api
 Content-Type: application/json
 
 {
-  "nome": "John Doe",
-  "codigo": "12345",
-  "ativa": 1
+  "aluno_ra": "1234",
+  "carteirinha_uid": "A92E6935"
 }
 
 ###

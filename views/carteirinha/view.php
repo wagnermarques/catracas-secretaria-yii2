@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            'carteirinha_id',
             [
                 'label' => 'Aluno',
                 'value' => $model->aluno && $model->aluno->pessoa ? $model->aluno->pessoa->firstname . ' ' . $model->aluno->pessoa->lastname . ' (RA: ' . $model->aluno->ra . ')' : '',

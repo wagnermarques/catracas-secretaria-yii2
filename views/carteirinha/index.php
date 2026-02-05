@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            'carteirinha_id',
             [
                 'attribute' => 'aluno_nome',
                 'label' => 'Aluno',

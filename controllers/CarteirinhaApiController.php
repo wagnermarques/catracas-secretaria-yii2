@@ -3,9 +3,13 @@
 namespace app\controllers;
 
 use app\models\Carteirinha;
+use app\models\Alunos;
 use yii\filters\ContentNegotiator;
 use yii\rest\ActiveController;
 use yii\web\Response;
+use yii\web\NotFoundHttpException;
+use yii\web\BadRequestHttpException;
+use yii\web\ServerErrorHttpException;
 
 /**
  * REST API controller for Carteirinha model.
@@ -52,6 +56,54 @@ class CarteirinhaApiController extends ActiveController
         unset($behaviors['authenticator']);
 
         return $behaviors;
+    }
+
+    public function actions()
+    {
+        $actions = parent::actions();
+        // Disable default create action to use our custom implementation
+        unset($actions['create']);
+        return $actions;
+    }
+
+    /**
+     * POST /carteirinha-api
+     * Creates a new Carteirinha with custom logic.
+     */
+    public function actionCreate()
+    {
+        $request = \Yii::$app->request;
+        $ra = $request->post('aluno_ra');
+        $uid = $request->post('carteirinha_uid');
+
+        if (empty($ra) || empty($uid)) {
+            throw new BadRequestHttpException("Os campos 'aluno_ra' e 'carteirinha_uid' são obrigatórios.");
+        }
+
+        $aluno = Alunos::findOne(['ra' => $ra]);
+
+        if (!$aluno) {
+            throw new NotFoundHttpException("Aluno com RA '{$ra}' não encontrado.");
+        }
+
+        $model = new Carteirinha();
+        $model->id_aluno = $aluno->id;
+        $model->carteirinha_id = $uid;
+        $model->ativa = 0; // Always inactive
+        
+        // Setting default dates as they are required by the model
+        // Using d/m/Y format as expected by the model's beforeSave
+        $model->data_emissao = date('d/m/Y');
+        $model->data_validade = date('d/m/Y', strtotime('+1 year'));
+
+        if ($model->save()) {
+            return $model;
+        } elseif ($model->hasErrors()) {
+             \Yii::$app->response->statusCode = 422;
+             return $model->getErrors();
+        } else {
+            throw new ServerErrorHttpException('Falha ao salvar a carteirinha.');
+        }
     }
 
     /**
