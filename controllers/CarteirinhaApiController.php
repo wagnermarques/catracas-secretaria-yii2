@@ -5,7 +5,6 @@ namespace app\controllers;
 use app\models\Carteirinha;
 use app\models\Alunos;
 use yii\filters\ContentNegotiator;
-use yii\rest\ActiveController;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
 use yii\web\BadRequestHttpException;
@@ -25,7 +24,7 @@ use yii\web\ServerErrorHttpException;
  * Custom:
  *  - GET /carteirinha-api/active-list
  */
-class CarteirinhaApiController extends ActiveController
+class CarteirinhaApiController extends ApiBaseController
 {
     public $modelClass = 'app\\models\\Carteirinha';
 
@@ -39,7 +38,7 @@ class CarteirinhaApiController extends ActiveController
                 [
                     'allow' => true,
                     'actions' => ['index', 'view', 'create', 'update', 'delete', 'active-list'],
-                    'roles' => ['?'], // '?' means anyone (guest) can access
+                    'roles' => ['@'], // '?' means anyone (guest) can access
                 ],
             ],
         ];
@@ -51,9 +50,6 @@ class CarteirinhaApiController extends ActiveController
                 'application/json' => Response::FORMAT_JSON,
             ],
         ];
-
-        // Common API behavior: no auth here (adjust later for add auth)
-        unset($behaviors['authenticator']);
 
         return $behaviors;
     }
