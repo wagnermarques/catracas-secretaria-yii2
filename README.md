@@ -15,6 +15,13 @@ ou
 
 gh repo clone wagnermarques/catracas-secretaria-yii2
 
+### Configurando arquivo de ambiente
+
+É necessário ter as informações de um projeto Firebase existente ou criar um projeto novo.
+Ver arquivo .env.example para mais informações
+
+Criar arquivo .env e adicionar chaves/valores necessários.
+
 ### subir o projeto
 
 docker compose build --no-cache
@@ -42,7 +49,14 @@ docker exec -it eteczlcatracas-php-fpm chmod -R 777 web/assets
    - User: use .env
    - Password: .env
 
-###
+### Autenticação da API / Basic Auth
+
+As rotas da API usam basic auth para autenticação.
+
+- Com o sistema web rodando
+- Logar na aplicação
+- Criar um Usuário Sistema
+- Usar auth_key como login(username) durante as requisições
 
 
 # Rodar testes

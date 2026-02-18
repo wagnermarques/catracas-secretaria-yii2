@@ -59,13 +59,14 @@ class User extends BaseObject implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
+        // TODO: Confirm the need for the loop through static users before querying the database
         foreach (self::$staticUsers as $user) {
             if ($user['accessToken'] === $token) {
                 return new static($user);
             }
         }
 
-        $dbUser = UsuariosSistema::findOne(['access_token' => $token]);
+        $dbUser = UsuariosSistema::findOne(['auth_key' => $token]);
         if ($dbUser) {
             return new static([
                 'id' => $dbUser->id,

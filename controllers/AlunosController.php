@@ -80,8 +80,8 @@ class AlunosController extends Controller
      */
     public function actionCreate()
     {
-
-        Yii::trace('[' . Yii::$app->user->identity . '] ===>' . __CLASS__ . ' ' . __METHOD__);
+        // TODO: Verificar erro de acesso a valor null na linha abaixo, encontrar o motivo.
+        // Yii::trace('[' . Yii::$app->user->identity . '] ===>' . __CLASS__ . ' ' . __METHOD__);
         $pessoas = Pessoas::find()->all();
         $alunos_status_all = AlunoStatus::find()->all();
         $model = new Alunos();
