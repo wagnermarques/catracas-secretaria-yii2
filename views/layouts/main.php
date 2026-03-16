@@ -24,10 +24,19 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>" class="h-100">
 <head>
+    <?php
+    $gtmId = Yii::$app->params['googleTagManagerId'] ?? null;
+    if ($gtmId): ?>
+        <?= $this->render('_gtm_head', ['id' => $gtmId]) ?>
+    <?php endif; ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
 <body class="d-flex flex-column h-100">
+<?php
+if ($gtmId): ?>
+    <?= $this->render('_gtm_body', ['id' => $gtmId]) ?>
+<?php endif; ?>
 <?php $this->beginBody() ?>
 
 <header id="header">
