@@ -29,6 +29,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     if ($gtmId): ?>
         <?= $this->render('_gtm_head', ['id' => $gtmId]) ?>
     <?php endif; ?>
+
+    <?php
+    $gaId = Yii::$app->params['googleAnalyticsId'] ?? null;
+    if ($gaId): ?>
+        <?= $this->render('_google_analytics', ['id' => $gaId]) ?>
+    <?php endif; ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
